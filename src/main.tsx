@@ -1,4 +1,4 @@
-import { router } from "@/routes.tsx";
+import { router } from "@/routes.ts";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 
