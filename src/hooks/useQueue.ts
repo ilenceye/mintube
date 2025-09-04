@@ -13,6 +13,7 @@ type QueueStore = {
   getQueues: () => Promise<void>;
   createQueue: (queue: Playlist) => Promise<void>;
   createQueues: (queues: Playlist[]) => Promise<void>;
+  deleteQueue: (id: string) => Promise<void>;
   currentQueue: CurrentQueue | null;
   setCurrentQueue: (queue: CurrentQueue) => void;
   clear: () => Promise<void>;
@@ -52,6 +53,14 @@ export const useQueueStore = create<QueueStore>()(
 
         // 更新 store
         set({ queues: [...queues, ...unique] });
+      },
+      deleteQueue: async (id) => {
+        const { queues, currentQueue } = get();
+        await db.deleteQueue(id);
+        set({
+          queues: queues.filter((q) => q.id !== id),
+          currentQueue: currentQueue?.id === id ? null : currentQueue, // 如果删除的是当前队列，则移除
+        });
       },
       currentQueue: null,
       setCurrentQueue: (queue) => set({ currentQueue: queue }),

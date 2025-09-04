@@ -15,6 +15,14 @@ const createQueue = async (queue: YTPlaylist) => {
   }
 };
 
+const deleteQueue = async (id: string) => {
+  try {
+    await queuesStore.removeItem(id);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getQueues = async () => {
   try {
     const keys = await queuesStore.keys();
@@ -34,6 +42,7 @@ const clear = async () => {
 
 export const db = {
   createQueue,
+  deleteQueue,
   getQueues,
   clear,
 };
